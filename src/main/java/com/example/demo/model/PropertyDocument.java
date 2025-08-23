@@ -1,0 +1,19 @@
+package com.example.demo.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(indexName = "property")
+public class PropertyDocument {
+    @Id
+    private Long id;
+    private String title;
+    private String description;
+    private Double price;
+}
