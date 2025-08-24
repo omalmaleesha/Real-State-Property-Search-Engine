@@ -8,5 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class SearchResponse {
-    private String name;
+    private Long id;
+    private String title;
+    private String description;
+    private Double price;
 }
