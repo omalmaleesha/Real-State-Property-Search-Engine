@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.SearchRequest;
 import com.example.demo.dto.SearchResponse;
 import com.example.demo.model.Property;
 import com.example.demo.model.PropertyDocument;
@@ -39,5 +40,12 @@ public class PropertyServiceImpl implements PropertyService {
         List<PropertyDocument> byTitleContaining = searchRepository.findByTitleContaining(query);
         Type targetListType = new TypeToken<List<SearchResponse>>() {}.getType();
         return modelMapper.map(byTitleContaining, targetListType);
+    }
+
+    @Override
+    public List<SearchResponse> searchPropertiesByDescription(String query) {
+        List<PropertyDocument> byDescriptionContaining = searchRepository.searchByDescription(query);
+        Type targetListType = new TypeToken<List<SearchResponse>>() {}.getType();
+        return modelMapper.map(byDescriptionContaining, targetListType);
     }
 }

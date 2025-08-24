@@ -5,6 +5,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +16,7 @@ public class PropertyDocument {
     @Id
     private Long id;
     private String title;
+    @Field(type = FieldType.Text)
     private String description;
     private Double price;
 }

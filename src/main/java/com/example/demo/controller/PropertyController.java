@@ -32,4 +32,9 @@ public class PropertyController {
     public List<SearchResponse> search(@RequestParam String q) {
         return service.searchProperties(q);
     }
+
+    @GetMapping("/searchDescription")
+    public List<SearchResponse> searchDescription(@RequestParam String q) {
+        return service.searchPropertiesByDescription(q);
+    }
 }
