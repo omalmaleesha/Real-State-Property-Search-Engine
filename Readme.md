@@ -51,6 +51,38 @@ Both Solr and Elasticsearch are powerful search engines, but Elasticsearch was c
 
 **Conclusion:** Since our project requires **real-time updates** and **geospatial property search**, Elasticsearch was selected over Solr.
 
+
+# 🏡 Property Suggestion Feature
+
+This feature provides **real-time property title suggestions** as users type in the search bar.  
+It is built using **Spring Boot**, **PostgreSQL**, and **Elasticsearch** for fast and efficient search performance.
+
+---
+
+## 🚀 Feature Overview
+
+- **Endpoint:** `GET /suggest?prefix=<text>`
+- Returns a list of property titles that start with the given prefix.
+- Uses **Elasticsearch** to fetch suggestions quickly.
+- Automatically indexes new properties when they are saved.
+
+---
+
+## 🧩 Architecture Overview
+
+1. **Property** — Stored in PostgreSQL.
+2. **PropertyDocument** — Indexed in Elasticsearch.
+3. **PropertyServiceImpl** — Handles saving, searching, and suggestions.
+4. **PropertyController** — Exposes `/suggest` endpoint to the frontend.
+
+---
+
+## 🔍 Example Usage
+
+**Request**
+```http
+GET /suggest?prefix=A
+
 ---
 
 
