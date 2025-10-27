@@ -10,4 +10,5 @@ public interface PropertyService {
     Property saveProperty(Property property);
     List<SearchResponse> searchProperties(String query);
     List<SearchResponse> searchPropertiesByDescription(String query);
+    List<String> suggestTitles(String query);
 }

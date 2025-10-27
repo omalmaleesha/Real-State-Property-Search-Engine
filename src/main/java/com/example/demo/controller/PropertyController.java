@@ -37,4 +37,9 @@ public class PropertyController {
     public List<SearchResponse> searchDescription(@RequestParam String q) {
         return service.searchPropertiesByDescription(q);
     }
+
+    @GetMapping("/suggest")
+    public List<String> suggestTitles(@RequestParam String prefix) {
+        return service.suggestTitles(prefix);
+    }
 }

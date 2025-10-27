@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.CompletionField;
 import org.springframework.data.elasticsearch.annotations.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
