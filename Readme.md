@@ -134,6 +134,8 @@ GET /properties/nearby?lat=6.9271&lon=79.8612&distance=10km
 GET /properties/nearby?lat=6.9271&lon=79.8612&distance=5km
 ```
 
+---
+
 #### ✅ Example JSON Response
 ```json
 [
