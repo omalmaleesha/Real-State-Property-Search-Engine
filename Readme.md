@@ -83,6 +83,104 @@ It is built using **Spring Boot**, **PostgreSQL**, and **Elasticsearch** for fas
 ```http
 GET /suggest?prefix=A
 
+### 🌍 Geo-Search (Location-Based Filtering)
+
+This feature allows users to **search properties within a specific radius** from a given location using Elasticsearch’s `geo_point` and `geo_distance` queries.  
+It helps users find nearby properties — for example, *“find all properties within 10 km of Colombo.”*
+
 ---
+
+#### 🧩 Feature Overview
+- Each property includes a **`location`** field of type `geo_point` (latitude, longitude).  
+- The API uses Elasticsearch’s **geo-distance query** to return all matching properties inside a radius.  
+- Built using **Spring Boot** + **Spring Data Elasticsearch**.
+
+---
+
+#### 🧠 Example Entity
+```java
+@Document(indexName = "property")
+public class PropertyDocument {
+    @Id
+    private Long id;
+    private String title;
+    private String description;
+    private Double price;
+
+    @GeoPointField
+    private GeoPoint location; // latitude & longitude
+}
+```
+
+---
+
+#### 🚀 API Endpoint
+**Endpoint**
+```
+GET /properties/nearby?lat=6.9271&lon=79.8612&distance=10km
+```
+
+**Parameters**
+| Name | Type | Example | Description |
+|------|------|----------|-------------|
+| `lat` | double | `6.9271` | Latitude of center point |
+| `lon` | double | `79.8612` | Longitude of center point |
+| `distance` | string | `10km` | Search radius (supports `m`, `km`, `mi`) |
+
+---
+
+#### 🧾 Example Request
+```
+GET /properties/nearby?lat=6.9271&lon=79.8612&distance=5km
+```
+
+#### ✅ Example JSON Response
+```json
+[
+  {
+    "id": 1,
+    "title": "Luxury Apartment in Colombo",
+    "description": "3-bedroom sea view apartment",
+    "price": 25000000.0,
+    "location": {
+      "lat": 6.9271,
+      "lon": 79.8612
+    }
+  },
+  {
+    "id": 2,
+    "title": "Modern Villa near Galle Face",
+    "description": "Spacious family home within city limits",
+    "price": 42000000.0,
+    "location": {
+      "lat": 6.9210,
+      "lon": 79.8550
+    }
+  }
+]
+```
+
+---
+
+#### ⚙️ How It Works
+The backend performs a **geo-distance query** using Spring Data Elasticsearch:
+```java
+NativeQuery query = NativeQuery.builder()
+    .withQuery(q -> q
+        .geoDistance(g -> g
+            .field("location")
+            .distance(distance)
+            .location(new GeoPoint(lat, lon))
+        )
+    )
+    .build();
+```
+
+---
+
+#### 💡 Why It’s Valuable
+- Enables **map-based and nearby searches**
+- Demonstrates understanding of **geospatial queries in Elasticsearch**
+- Adds **real-world, production-ready functionality** to the Property Search Engine
 
 
