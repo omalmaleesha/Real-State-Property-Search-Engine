@@ -82,6 +82,8 @@ It is built using **Spring Boot**, **PostgreSQL**, and **Elasticsearch** for fas
 **Request**
 ```http
 GET /suggest?prefix=A
+```
+---
 
 ### 🌍 Geo-Search (Location-Based Filtering)
 
