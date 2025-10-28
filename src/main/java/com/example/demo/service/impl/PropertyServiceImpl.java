@@ -10,6 +10,10 @@ import com.example.demo.repository.PropertySearchRepository;
 import com.example.demo.service.PropertyService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,18 +28,20 @@ public class PropertyServiceImpl implements PropertyService {
     private final PropertySearchRepository searchRepository;
     private final ModelMapper modelMapper;
     private final PropertyDocumentRepository propertyDocumentRepository;
+    private final ElasticsearchOperations elasticsearchOperations;
 
-    public PropertyServiceImpl(PropertyRepository propertyRepository, PropertySearchRepository searchRepository, ModelMapper modelMapper, PropertyDocumentRepository propertyDocumentRepository) {
+    public PropertyServiceImpl(PropertyRepository propertyRepository, PropertySearchRepository searchRepository, ModelMapper modelMapper, PropertyDocumentRepository propertyDocumentRepository,ElasticsearchOperations elasticsearchOperations) {
         this.propertyRepository = propertyRepository;
         this.searchRepository = searchRepository;
         this.modelMapper = modelMapper;
         this.propertyDocumentRepository = propertyDocumentRepository;
+        this.elasticsearchOperations = elasticsearchOperations;
     }
 
     @Transactional
     public Property saveProperty(Property property) {
         Property saved = propertyRepository.save(property);
-        PropertyDocument doc = new PropertyDocument(saved.getId(), saved.getTitle(), saved.getDescription(), saved.getPrice());
+        PropertyDocument doc = new PropertyDocument(saved.getId(), saved.getTitle(), saved.getDescription(), saved.getPrice(),saved.getLocation());
         searchRepository.save(doc);
         return saved;
     }
@@ -61,5 +67,26 @@ public class PropertyServiceImpl implements PropertyService {
                 .map(PropertyDocument::getTitle)
                 .limit(10) // Limit suggestions for performance
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PropertyDocument> findPropertiesNear(double lat, double lon, String distance) {
+        NativeQuery query = NativeQuery.builder()
+                .withQuery(q -> q
+                        .geoDistance(g -> g
+                                .field("location")
+                                .distance(distance)
+                                .location(l -> l.latlon(builder -> builder.lat(lat).lon(lon)))
+                        )
+                )
+                .build();
+
+        SearchHits<PropertyDocument> hits =
+                elasticsearchOperations.search(query, PropertyDocument.class);
+
+        return hits.getSearchHits()
+                .stream()
+                .map(SearchHit::getContent)
+                .toList();
     }
 }

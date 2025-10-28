@@ -42,4 +42,13 @@ public class PropertyController {
     public List<String> suggestTitles(@RequestParam String prefix) {
         return service.suggestTitles(prefix);
     }
+
+    @GetMapping("/nearby")
+    public List<PropertyDocument> getNearbyProperties(
+            @RequestParam double lat,
+            @RequestParam double lon,
+            @RequestParam(defaultValue = "10km") String distance) {
+        return service.findPropertiesNear(lat, lon, distance);
+    }
+
 }

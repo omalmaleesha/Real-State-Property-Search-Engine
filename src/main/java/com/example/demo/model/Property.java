@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.CompletionField;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.GeoPointField;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.data.elasticsearch.core.suggest.Completion;
 
 @Entity
@@ -20,4 +22,7 @@ public class Property {
     private String title;
     private String description;
     private Double price;
+
+    @GeoPointField
+    private GeoPoint location;
 }

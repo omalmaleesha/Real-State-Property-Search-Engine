@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.SearchRequest;
 import com.example.demo.dto.SearchResponse;
 import com.example.demo.model.Property;
+import com.example.demo.model.PropertyDocument;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface PropertyService {
     List<SearchResponse> searchProperties(String query);
     List<SearchResponse> searchPropertiesByDescription(String query);
     List<String> suggestTitles(String query);
+
+    List<PropertyDocument> findPropertiesNear(double lat, double lon, String distance);
 }
