@@ -41,7 +41,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Transactional
     public Property saveProperty(Property property) {
         Property saved = propertyRepository.save(property);
-        PropertyDocument doc = new PropertyDocument(saved.getId(), saved.getTitle(), saved.getDescription(), saved.getPrice(),saved.getLocation());
+        PropertyDocument doc = new PropertyDocument(saved.getId(), saved.getTitle(), saved.getDescription(), saved.getPrice(),saved.getLatitude(),saved.getLongitude());
         searchRepository.save(doc);
         return saved;
     }

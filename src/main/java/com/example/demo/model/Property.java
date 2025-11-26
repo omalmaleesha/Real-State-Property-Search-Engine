@@ -23,6 +23,10 @@ public class Property {
     private String description;
     private Double price;
 
-    @GeoPointField
-    private GeoPoint location;
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
 }

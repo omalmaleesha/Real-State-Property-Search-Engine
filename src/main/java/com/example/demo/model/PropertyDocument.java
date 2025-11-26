@@ -21,4 +21,7 @@ public class PropertyDocument {
 
     @GeoPointField
     private GeoPoint location;
+
+    public PropertyDocument(Long id, String title, String description, Double price, Double latitude, Double longitude) {
+    }
 }
